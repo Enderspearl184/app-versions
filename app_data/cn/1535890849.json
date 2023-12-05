@@ -1,0 +1,1 @@
+[{"version_id":"838432748","version_name":"1.0.1","version_date":"2020-10-31 03:20:50.000 +0800","version_description":"1.修复设置技能无效问题<br>2.修复血量偶尔清零问题<br>4.修复试炼路一直挑战bug<br>5.限制一天刷怪次数<br>6.fix mor bug"},{"version_id":"838466171","version_name":"1.0.2","version_date":"2020-11-02 05:35:54.000 +0800","version_description":"1.修改每天挑战次数<br>2.修复可能内存泄漏问题<br>3.fix more bug"}]
