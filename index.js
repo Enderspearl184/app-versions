@@ -48,7 +48,7 @@
     //create apps for each region
     regionMap = null //also clear up this garbage
 
-    let appVerObjMap = records.map((csv)=>{return {"app_id":csv[0],"region":csv[1],"version_id":csv[3],"version_name":csv[4],'version_date':csv[5],'version_description':csv[6]}})
+    let appVerObjMap = records.map((csv)=>{return {"app_id":csv[2],"region":csv[1],"version_id":csv[3],"version_name":csv[4],'version_date':csv[5],'version_description':csv[6]}})
 
     //also clear this
     records = null
@@ -69,6 +69,8 @@
         if (regions[region][appId].length==1) {console.log(`new app for region ${region} id ${appId} (${count}/${length})`)}
         count++
     }
+
+    //loop that will take forever x 3
     count = 0
     for (let region in regions) {
         for (let appId in regions[region]) {
@@ -81,7 +83,8 @@
             })
             count+=regions[region][appId].length
             console.log(`writing file for app id ${appId} in region ${region} (${count}/${length})`)
-            fs.promises.writeFile(`./app_data/${region}/${appId}.json`,JSON.stringify(regions[region][appId]))
+            //yes writeFileSync is bad, i don't really care.
+            fs.writeFileSync(`./app_data/${region}/${appId}.json`,JSON.stringify(regions[region][appId]))
         }
     }
 })()
