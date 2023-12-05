@@ -53,7 +53,7 @@ iOS App Version History (v2)
 			//remove duplicates as apparently there are a LOT of them
 			if (versionsAdded.find(ver=>(ver["version_id"]==version["version_id"] && ver["version_name"]==version['version_name'] && ver["version_description"]==version["version_description"])))
 				continue;
-			let date = (new Date(Date.parse(version["version_date"].split(' ').join('')))).toDateString()
+			let date = (new Date(Date.parse(version["version_date"].split(' +').join('+')))).toDateString()
 			if (date=="Invalid Date") date = ""
 			table.innerHTML+=`<tr>
         	<td>${version["version_id"]}</td>
