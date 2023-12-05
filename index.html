@@ -16,25 +16,6 @@ tr:hover {
 	background-color: #dddddd;
 }
 </style>
-<script>
-	let search = new URLSearchParams(window.location.search);
-	let region = search.get("region")
-	let appId = search.get('app')
-	fetch(`./app_data/${region}/${appId}.json`).then((res)=>res.json().then((json)=>{
-		let table = document.querySelector('tbody')
-		//i did an oopsie when generating this and it is the wrong way around whoopsie
-		//{"version_id":"601953594","version_name":"1.0.9","version_date":"","version_description":""}
-		json = json.reverse()
-		for (let version of json) {
-			table.innerHTML+=`<tr>
-        	<td>${version["version_id"]}</td>
-            <td>${version["version_name"]}/td>
-            <td>${(new Date(Date.parse(version["version_date"].split(' ').join('')))).toDateString()}</td>
-            <td>${version["version_description"]}</td>
-			</tr>`
-		}
-	}))
-</script>
 </head>
 <body>
 iOS App Version History (v2)
@@ -55,6 +36,34 @@ iOS App Version History (v2)
         </tr>
 	</tbody>
 </table>
+<script>
+	let search = new URLSearchParams(window.location.search);
+	let region = search.get("region")
+	document.getElementById('region').value=region||""
+	let appId = search.get('app')
+	document.getElementById('app').value=appId||""
+	fetch(`./app_data/${region}/${appId}.json`).then((res)=>res.json().then((json)=>{
+		let table = document.querySelector('tbody')
+		//i did an oopsie when generating this and it is the wrong way around whoopsie
+		//also remove duplicates
+		//{"version_id":"601953594","version_name":"1.0.9","version_date":"","version_description":""}
+		json = json.reverse()
+		let versionsAdded = []
+		for (let version of json) {
+			//remove duplicates as apparently there are a LOT of them
+			if (versionsAdded.find(ver=>(ver["version_id"]==version["version_id"] && ver["version_name"]==version['version_name'] && ver["version_description"]==version["version_description"])))
+				continue;
+			let date = (new Date(Date.parse(version["version_date"].split(' ').join('')))).toDateString()
+			if (date=="Invalid Date") date = ""
+			table.innerHTML+=`<tr>
+        	<td>${version["version_id"]}</td>
+            <td>${version["version_name"]}</td>
+            <td>${date}</td>
+            <td>${version["version_description"]}</td>
+			</tr>`
+			versionsAdded.push(version)
+		}
+	}))
+</script>
 </body>
-
 </html>
