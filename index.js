@@ -80,8 +80,8 @@
                 }
             })
             count+=regions[region][appId].length
-            console.log(`writing file for app id ${appId} ${count}/${length}`)
-            fs.writeFileSync(`${appId}.json`,JSON.stringify(regions[region][appId]))
+            console.log(`writing file for app id ${appId} in region ${region} (${count}/${length})`)
+            fs.promises.writeFile(`./app_data/${region}/${appId}.json`,JSON.stringify(regions[region][appId]))
         }
     }
 })()
